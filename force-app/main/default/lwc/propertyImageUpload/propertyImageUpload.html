@@ -1,0 +1,25 @@
+<template>
+    <lightning-card title="Property Images" icon-name="doctype:image">
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={hasImages}>
+                <div class="slds-grid slds-wrap slds-gutters_x-small">
+                    <template for:each={images} for:item="image">
+                        <div key={image.Id} class="slds-col slds-size_1-of-2 slds-p-bottom_x-small">
+                            <img src={image.thumbnailUrl} alt={image.Title} title={image.Title} class="thumbnail" />
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <template lwc:else>
+                <p class="slds-text-color_weak">No images uploaded yet.</p>
+            </template>
+            <lightning-file-upload
+                label="Add more images"
+                record-id={recordId}
+                multiple
+                accept={acceptedFormats}
+                onuploadfinished={handleUploadFinished}
+            ></lightning-file-upload>
+        </div>
+    </lightning-card>
+</template>

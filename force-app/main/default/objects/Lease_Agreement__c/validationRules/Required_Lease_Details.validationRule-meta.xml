@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Required_Lease_Details</fullName>
+    <active>true</active>
+    <description>Property, Tenant, Rent, Start and End Date are mandatory and End Date must be after Start Date.</description>
+    <errorConditionFormula>OR(
+    ISBLANK(Property__c),
+    ISBLANK(Tenant__c),
+    ISBLANK(Agreed_Monthly_Rent__c),
+    ISBLANK(Start_Date__c),
+    ISBLANK(End_Date__c),
+    End_Date__c &lt;= Start_Date__c
+)</errorConditionFormula>
+    <errorMessage>Property, Tenant, Agreed Monthly Rent, Start Date and End Date are required, and End Date must be after Start Date.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Required_Property_Details</fullName>
+    <active>true</active>
+    <description>Address, City, State, Postal Code, Country, Type, Status, Rent and Description are mandatory.</description>
+    <errorConditionFormula>OR(
+    ISBLANK(Address__c),
+    ISBLANK(City__c),
+    ISBLANK(State__c),
+    ISBLANK(Postal_Code__c),
+    ISBLANK(Country__c),
+    ISPICKVAL(Type__c, &apos;&apos;),
+    ISPICKVAL(Status__c, &apos;&apos;),
+    ISBLANK(Price__c),
+    ISBLANK(Description__c)
+)</errorConditionFormula>
+    <errorMessage>Address, City, State, Postal Code, Country, Type, Status, Rent and Description are required.</errorMessage>
+</ValidationRule>

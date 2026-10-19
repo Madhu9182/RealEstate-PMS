@@ -1,0 +1,71 @@
+<template>
+    <lightning-card title="New Property" icon-name="custom:custom24">
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error slds-m-bottom_small" role="alert">
+                    {error}
+                </div>
+            </template>
+
+            <lightning-record-edit-form object-api-name="Property__c" onsubmit={handleSubmit}>
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item size="12" medium-device-size="6" padding="horizontal-small">
+                        <lightning-input-field field-name="Property_Name__c" required></lightning-input-field>
+                        <lightning-input-field field-name="Address__c" required></lightning-input-field>
+                        <lightning-input-field field-name="City__c" required></lightning-input-field>
+                        <lightning-input-field field-name="State__c" required></lightning-input-field>
+                        <lightning-input-field field-name="Postal_Code__c" required></lightning-input-field>
+                        <lightning-input-field field-name="Country__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="6" padding="horizontal-small">
+                        <lightning-input-field field-name="Type__c" required></lightning-input-field>
+                        <lightning-input-field field-name="Furnishing_Status__c"></lightning-input-field>
+                        <lightning-input-field field-name="Status__c" required></lightning-input-field>
+                        <lightning-input-field field-name="Price__c" required></lightning-input-field>
+                        <lightning-input-field field-name="Tenant__c"></lightning-input-field>
+                        <lightning-input-field field-name="Description__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                </lightning-layout>
+
+                <div class="slds-p-horizontal_small slds-m-top_medium">
+                    <lightning-file-upload
+                        label="Property Images (at least one required)"
+                        name="propertyImages"
+                        accept={acceptedFormats}
+                        record-id={userId}
+                        multiple
+                        onuploadfinished={handleUploadFinished}
+                    ></lightning-file-upload>
+                    <template lwc:if={hasImages}>
+                        <div class="slds-m-top_x-small">
+                            <template for:each={images} for:item="image">
+                                <lightning-pill
+                                    key={image.documentId}
+                                    label={image.name}
+                                    name={image.documentId}
+                                    onremove={handleRemoveImage}
+                                >
+                                    <lightning-icon icon-name="doctype:image" alternative-text="Image"></lightning-icon>
+                                </lightning-pill>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="slds-m-top_medium slds-p-around_small slds-text-align_right">
+                    <lightning-button label="Cancel" onclick={handleCancel} class="slds-m-right_x-small"></lightning-button>
+                    <lightning-button
+                        variant="brand"
+                        type="submit"
+                        label="Save"
+                        disabled={isSaving}
+                    ></lightning-button>
+                </div>
+            </lightning-record-edit-form>
+
+            <template lwc:if={isSaving}>
+                <lightning-spinner alternative-text="Saving"></lightning-spinner>
+            </template>
+        </div>
+    </lightning-card>
+</template>

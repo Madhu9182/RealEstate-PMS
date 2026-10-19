@@ -1,0 +1,19 @@
+<template>
+    <lightning-card title="Property Location" icon-name="standard:address">
+        <template lwc:if={mapMarkers}>
+            <lightning-map
+                map-markers={mapMarkers}
+                zoom-level="15"
+                list-view="hidden"
+            ></lightning-map>
+            <template lwc:if={isPending}>
+                <p class="slds-p-horizontal_medium slds-text-color_weak slds-text-body_small">
+                    Exact coordinates are not available yet; the marker is based on the address.
+                </p>
+            </template>
+        </template>
+        <template lwc:elseif={error}>
+            <p class="slds-p-around_medium slds-text-color_error">{error}</p>
+        </template>
+    </lightning-card>
+</template>

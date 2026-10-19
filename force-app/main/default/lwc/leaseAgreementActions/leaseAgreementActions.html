@@ -1,0 +1,33 @@
+<template>
+    <lightning-card title="Lease Agreement PDF" icon-name="doctype:pdf">
+        <div slot="actions">
+            <lightning-button-group>
+                <lightning-button
+                    label="Download PDF"
+                    icon-name="utility:download"
+                    onclick={handleDownload}
+                    disabled={isDisabled}
+                ></lightning-button>
+                <lightning-button
+                    variant="brand"
+                    label="Send PDF to Tenant"
+                    icon-name="utility:email"
+                    onclick={handleSend}
+                    disabled={isDisabled}
+                ></lightning-button>
+            </lightning-button-group>
+        </div>
+        <div class="slds-p-horizontal_medium slds-is-relative">
+            <template lwc:if={isBusy}>
+                <lightning-spinner alternative-text="Working" size="small"></lightning-spinner>
+            </template>
+            <template lwc:if={lease}>
+                <p>Tenant: <strong>{tenantLabel}</strong></p>
+                <p>Property: <strong>{propertyLabel}</strong></p>
+            </template>
+            <template lwc:if={error}>
+                <p class="slds-text-color_error" role="alert">{error}</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

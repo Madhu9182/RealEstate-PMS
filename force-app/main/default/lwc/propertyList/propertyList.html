@@ -1,0 +1,132 @@
+<template>
+    <lightning-card title="Properties" icon-name="custom:custom24">
+        <lightning-button
+            slot="actions"
+            label="New Property"
+            icon-name="utility:add"
+            onclick={handleNewProperty}
+        ></lightning-button>
+
+        <div class="slds-p-horizontal_medium">
+            <lightning-layout multiple-rows vertical-align="end">
+                <lightning-layout-item size="6" medium-device-size="2" padding="around-small">
+                    <lightning-input
+                        type="number"
+                        label="Min Price"
+                        name="minPrice"
+                        min="0"
+                        formatter="currency"
+                        value={filters.minPrice}
+                        onchange={handleFilterChange}
+                    ></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" medium-device-size="2" padding="around-small">
+                    <lightning-input
+                        type="number"
+                        label="Max Price"
+                        name="maxPrice"
+                        min="0"
+                        formatter="currency"
+                        value={filters.maxPrice}
+                        onchange={handleFilterChange}
+                    ></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" medium-device-size="2" padding="around-small">
+                    <lightning-combobox
+                        label="Availability"
+                        name="status"
+                        options={statusOptions}
+                        value={filters.status}
+                        onchange={handleFilterChange}
+                    ></lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" medium-device-size="2" padding="around-small">
+                    <lightning-combobox
+                        label="Furnishing"
+                        name="furnishingStatus"
+                        options={furnishingOptions}
+                        value={filters.furnishingStatus}
+                        onchange={handleFilterChange}
+                    ></lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" medium-device-size="2" padding="around-small">
+                    <lightning-input
+                        type="number"
+                        label="Within (km) of me"
+                        name="distanceKm"
+                        min="1"
+                        value={filters.distanceKm}
+                        onchange={handleFilterChange}
+                    ></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" medium-device-size="2" padding="around-small">
+                    <lightning-button-group>
+                        <lightning-button
+                            variant="brand"
+                            label="Apply"
+                            onclick={handleApply}
+                        ></lightning-button>
+                        <lightning-button label="Reset" onclick={handleReset}></lightning-button>
+                    </lightning-button-group>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+
+        <template lwc:if={error}>
+            <div class="slds-text-color_error slds-p-around_medium" role="alert">{error}</div>
+        </template>
+
+        <div class="slds-is-relative slds-p-horizontal_small">
+            <template lwc:if={isLoading}>
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </template>
+            <lightning-datatable
+                key-field="Id"
+                data={rows}
+                columns={columns}
+                hide-checkbox-column
+                show-row-number-column
+                row-number-offset={rowNumberOffset}
+            ></lightning-datatable>
+            <template lwc:if={isEmpty}>
+                <p class="slds-p-around_medium slds-text-align_center">No properties found.</p>
+            </template>
+        </div>
+
+        <div slot="footer" class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+            <span class="page-info">Page {pageNumber} of {totalPages} &middot; {totalCount} properties</span>
+            <lightning-button-group>
+                <lightning-button
+                    label="First"
+                    icon-name="utility:jump_to_left"
+                    disabled={isFirstPage}
+                    data-direction="first"
+                    onclick={handlePage}
+                ></lightning-button>
+                <lightning-button
+                    label="Previous"
+                    icon-name="utility:chevronleft"
+                    disabled={isFirstPage}
+                    data-direction="previous"
+                    onclick={handlePage}
+                ></lightning-button>
+                <lightning-button
+                    label="Next"
+                    icon-name="utility:chevronright"
+                    icon-position="right"
+                    disabled={isLastPage}
+                    data-direction="next"
+                    onclick={handlePage}
+                ></lightning-button>
+                <lightning-button
+                    label="Last"
+                    icon-name="utility:jump_to_right"
+                    icon-position="right"
+                    disabled={isLastPage}
+                    data-direction="last"
+                    onclick={handlePage}
+                ></lightning-button>
+            </lightning-button-group>
+        </div>
+    </lightning-card>
+</template>
